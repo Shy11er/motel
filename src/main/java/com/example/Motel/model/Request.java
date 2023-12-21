@@ -14,6 +14,7 @@ public class Request {
     @GeneratedValue
     private Long id;
     private RequestType requestType;
+    private Room.RoomType roomType;
     private Long daysToLive;
     private LocalDateTime date;
 
