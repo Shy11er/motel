@@ -1,5 +1,6 @@
 package com.example.Motel.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
@@ -14,11 +15,11 @@ public class Room {
     private Long price;
     private Long roomCount;
     private RoomStatus status;
-
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "request_id")
-    @JsonIgnoreProperties("room")
+    @JsonBackReference
     private Request request;
+
     public Room() {}
     public enum RoomType {
         Luxury,
@@ -46,5 +47,33 @@ public class Room {
     }
     public void setRoomType(RoomType roomType) {
         this.roomType = roomType;
+    }
+
+    public Request getRequest() {
+        return request;
+    }
+
+    public RoomType getRoomType() {
+        return roomType;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public Long getRoomCount() {
+        return roomCount;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public RoomStatus getStatus() {
+        return status;
+    }
+
+    public String getFeatures() {
+        return features;
     }
 }

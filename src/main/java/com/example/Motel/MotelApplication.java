@@ -19,20 +19,20 @@ public class MotelApplication {
 	}
 
 
-//	private static List<String> features = Arrays.asList("Вид на море", "Удобные креслы", "Просторный шкаф", "Есть приставка", "Есть мини-бар");
-	private static List<String> features = Arrays.asList("View at the sea", "Comfortable chairs ", "Spacious closet", "Game console ", "Minibar");
+	private static List<String> features = Arrays.asList("Вид на море", "Удобные креслы", "Просторный шкаф", "Есть приставка", "Есть мини-бар");
+//	private static List<String> features = Arrays.asList("View at the sea", "Comfortable chairs ", "Spacious closet", "Game console ", "Minibar");
 
 	@Bean
 	CommandLineRunner commandLineRunnerRooms(RoomRepository roomRepository){
 		System.out.println(1);
 		return args -> {
-			int RandRooms = getRandomNumberInRange(30, 50);
+			int RandRooms = getRandomNumberInRange(50, 70);
 			List<Room> rooms = new ArrayList<>();
 
 			while (RandRooms > 0) {
-				int randRoomCount = getRandomNumberInRange(1, 2);
+				int randRoomCount = getRandomNumberInRange(1, 3);
 				int randRoomType = getRandomNumberInRange(1, 10);
-				int randPrice = getRandomNumberInRange(50, 120);
+				int randPrice = getRandomNumberInRange(1000, 3000);
 				int randFeature = getRandomNumberInRange(1, features.size()) - 1;
 				String feature = features.get(randFeature);
 				Room.RoomType roomType;
@@ -52,6 +52,8 @@ public class MotelApplication {
 				room.setRoomCount((long)randRoomCount);
 				room.setPrice((long)randPrice);
 				room.setFeatures(feature);
+				room.setStatus(Room.RoomStatus.Free);
+				room.setRequest(null);
 				rooms.add(room);
 				RandRooms--;
 			}

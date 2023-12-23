@@ -15,6 +15,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping(path="request")
+@CrossOrigin(origins = "http://localhost:5173")
 public class RequestController {
     private final RequestService requestService;
     private final GuestService guestService;
