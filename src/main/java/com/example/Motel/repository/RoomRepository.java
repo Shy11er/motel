@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RoomRepository extends JpaRepository<Room, Long> {
-    @Query("SELECT r FROM Room r WHERE (:roomCount IS NULL OR r.roomCount = :roomCount) AND r.status NOT IN :status  AND r.roomType = :roomType" +
+    @Query("SELECT r FROM Room r WHERE (:roomCount IS NULL OR r.roomCount = :roomCount) AND (r.status NOT IN :status) AND r.roomType = :roomType" +
             " AND (:feature IS NULL OR r.features = :feature)")
-    List<Room> findOneBy(@Param("roomCount") Long roomCount,
+    List<Room> findAllBy(@Param("roomCount") Long roomCount,
                          @Param("roomType") Room.RoomType roomType,
                          @Param("status") List<Room.RoomStatus> status,
                          @Param("feature") String feature);

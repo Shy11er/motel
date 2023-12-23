@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -13,11 +14,11 @@ import java.util.List;
 import java.util.Random;
 
 @SpringBootApplication
+@EnableScheduling
 public class MotelApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(MotelApplication.class, args);
 	}
-
 
 	private static List<String> features = Arrays.asList("Вид на море", "Удобные креслы", "Просторный шкаф", "Есть приставка", "Есть мини-бар");
 //	private static List<String> features = Arrays.asList("View at the sea", "Comfortable chairs ", "Spacious closet", "Game console ", "Minibar");
@@ -26,7 +27,7 @@ public class MotelApplication {
 	CommandLineRunner commandLineRunnerRooms(RoomRepository roomRepository){
 		System.out.println(1);
 		return args -> {
-			int RandRooms = getRandomNumberInRange(50, 70);
+			int RandRooms = getRandomNumberInRange(100, 140);
 			List<Room> rooms = new ArrayList<>();
 
 			while (RandRooms > 0) {

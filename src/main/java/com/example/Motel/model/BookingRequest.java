@@ -12,7 +12,6 @@ public class BookingRequest extends Request{
     @GeneratedValue
     private Long id;
 //    @Column(name = "arrival", columnDefinition = "TIMESTAMP")
-    private LocalDateTime arrival;
 //    @Column(name = "room_number", columnDefinition = "BIGINT")
     private Long roomNumber;
     public BookingRequest() {
@@ -22,8 +21,4 @@ public class BookingRequest extends Request{
 //    public LocalDateTime getArrival() {
 //        return this.arrival;
 //    }
-
-    public void setArrival(LocalDateTime arrival) {
-        this.arrival = arrival;
-    }
 }

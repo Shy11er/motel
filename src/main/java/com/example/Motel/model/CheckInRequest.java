@@ -12,7 +12,6 @@ public class CheckInRequest extends Request{
     @GeneratedValue
     private Long id;
 //    @Column(name = "arrival", columnDefinition = "TIMESTAMP")
-    private LocalDateTime arrival;
 
     public CheckInRequest() {
         super();
@@ -23,7 +22,4 @@ public class CheckInRequest extends Request{
 //        return this.arrival;
 //    }
 
-    public void setArrival(LocalDateTime arrival) {
-        this.arrival = arrival;
-    }
 }

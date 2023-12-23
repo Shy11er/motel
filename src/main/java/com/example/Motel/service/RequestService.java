@@ -24,41 +24,22 @@ public class RequestService {
 
         if (requestType == Request.RequestType.Booking) {
             request = new BookingRequest();
-            ((BookingRequest) request).setArrival(requestDto.getArrival());
         } else {
             request = new CheckInRequest();
-            ((CheckInRequest) request).setArrival(LocalDateTime.now());
         }
-//        request.setArrival(requestDto.getRequestType() == Request.RequestType.CheckIn ? LocalDateTime.now() : requestDto.getArrival());
+
+        request.setArrival(requestDto.getArrival());
+        request.setDeparture(requestDto.getArrival().plusDays(requestDto.getDaysToLive()));
         request.setDaysToLive(requestDto.getDaysToLive());
         request.setFeature(requestDto.getFeature());
         request.setPayImmediatle(requestDto.getPayImmediatle());
-        List<Room> rooms = roomService.getRooms(requestDto);
-        System.out.println("rooms size %d".formatted(rooms.size()));
         request.setGuest(guest);
-//        request.setRooms(rooms);
         request.setRoomType(requestDto.getRoomType());
         request.setRequestType(requestType);
         request.setRoomNumber(requestDto.getRoomNumber());
-        long amountPrice = 0;
-        for (Room room : rooms) {
-            Room.RoomStatus roomStatus = requestDto.getRequestType() == Request.RequestType.Booking ? Room.RoomStatus.Booked : Room.RoomStatus.Busy;
-            room.setStatus(roomStatus);
-            room.setRequest(request);
-            Long roomCount = room.getPrice();
-            if (roomCount != requestDto.getRoomCount()) {
-                amountPrice += room.getPrice() * 0.7;
-            } else {
-                amountPrice += room.getPrice();
-            }
-            System.out.println(room);
-            roomRepository.save(room);
-        }
-        amountPrice *= requestDto.getDaysToLive();
-        request.setAmountPrice(amountPrice);
+        request.setRoomCount(requestDto.getRoomCount());
+        request.setStatus("Заехал");
         requestRepository.save(request);
-//        roomRepository.saveAll(rooms);
-//        requestRepository.save(request);
         return request;
     }
 
@@ -73,10 +54,15 @@ public class RequestService {
     }
 
     public void update(Long request_id, RequestDto updateRequest) {
-        boolean findRequest = this.existRequest(request_id);
+        Request request = requestRepository.findById(request_id).orElse(null);
 
-        if (findRequest) {
-
+        if (request != null) {
+            request.setDaysToLive(request.getDaysToLive());
+            request.setRoomCount(request.getRoomCount());
+            request.setRoomType(request.getRoomType());
+            request.setFeature(request.getFeature());
+            request.setPayImmediatle(request.getPayImmediatle());
+            requestRepository.save(request);
         }
     }
 
