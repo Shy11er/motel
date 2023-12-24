@@ -52,12 +52,12 @@ public class SimulationService implements SimulationInterface {
                 int randFN = getRandomNumberInRange(0, RandFirstName.size() - 1);
                 int randSN = getRandomNumberInRange(0, RandSurName.size() - 1);
                 int randLN = getRandomNumberInRange(0,RandLastName.size() - 1);
-                long roomNumber = getRandomNumberInRange(1, 10);
+                long roomNumber = getRandomNumberInRange(1, 5);
                 long roomCount = getRandomNumberInRange(1, 3);
                 int randReqType = getRandomNumberInRange(0, requestTypes.length - 1);
                 int randRoomType = getRandomNumberInRange(0, roomType.length-1);
                 int featureInd = getRandomNumberInRange(0, features.size()-1);
-                long daysToLive = getRandomNumberInRange(1, 4);
+                long daysToLive = getRandomNumberInRange(1, 3);
 
                 Guest newGuest = new Guest();
                 newGuest.setFirstName(RandFirstName.get(randFN));

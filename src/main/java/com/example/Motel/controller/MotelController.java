@@ -35,11 +35,8 @@ public class MotelController {
     public void start() {
         List<Request> requests = requestService.getAll();
         requests.sort(Comparator.comparing(Request::getArrival));
-//        long r
         int step = simulationService.getStep();
         List<Request> requestsToRemove = new ArrayList<>();
-//        long RequestsNotSubmitted = 0;
-//        long RequestsSubmitted=  0;
 
         while (!requests.isEmpty()) {
             Iterator<Request> iterator = requests.iterator();
@@ -66,6 +63,52 @@ public class MotelController {
 
     @GetMapping("/otchet")
     public ResponseEntity<Otchet> otchet() {
+        List<Room> rooms = roomRepository.findAll();
+        long luxury_count = 0, ordinary_count = 0;
+        double lux_occupancy_percentage = 0,ordinary_occupancy_percentage = 0;
+        long one_room = 0, two_room = 0, three_room = 0;
+
+        for (Room room : rooms) {
+            if (room.getRoomType() == Room.RoomType.Ordinary) {
+                if (room.getRequest() != null) {
+                    ordinary_occupancy_percentage++;
+                    System.out.println("обычный");
+                }
+                ordinary_count++;
+            } else {
+                if (room.getRequest() != null) {
+                    lux_occupancy_percentage++;
+                    System.out.println("люкс");
+                }
+                luxury_count++;
+            }
+
+            if (room.getRoomCount() == 1) {
+                one_room++;
+            } else if (room.getRoomCount() == 2) {
+                two_room++;
+            } else if (room.getRoomCount() == 3) {
+                three_room++;
+            }
+        }
+
+        if (ordinary_count != 0) {
+            ordinary_occupancy_percentage = (ordinary_occupancy_percentage / ordinary_count) * 100;
+        }
+        if (luxury_count != 0) {
+            lux_occupancy_percentage = (lux_occupancy_percentage / luxury_count) * 100;
+        }
+
+        otchet.setAllRooms(rooms.size());
+        otchet.setLuxury_count(luxury_count);
+        otchet.setLux_occupancy_percentage(lux_occupancy_percentage);
+        otchet.setOrdinary_count(ordinary_count);
+        otchet.setOrdinary_occupancy_percentage(ordinary_occupancy_percentage);
+        otchet.setOne_room(one_room);
+        otchet.setThree_room(three_room);
+        otchet.setTwo_room(two_room);
+
+        System.out.println(otchet);
         return new ResponseEntity<>(otchet, HttpStatus.OK);
     }
 
@@ -80,6 +123,7 @@ public class MotelController {
             long amountPrice = calculateAmountPrice(request, rooms);
             request.setAmountPrice(amountPrice);
             request.setRooms(rooms);
+            otchet.addAmountPrice(amountPrice);
         }
 
         if (request.getRooms() != null) {
