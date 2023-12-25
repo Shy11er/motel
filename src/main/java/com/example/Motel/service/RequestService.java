@@ -21,10 +21,12 @@ public class RequestService {
     public Request create(Guest guest, RequestDto requestDto) {
         Request request;
         Request.RequestType requestType = requestDto.getRequestType() == Request.RequestType.CheckIn ? Request.RequestType.CheckIn: Request.RequestType.Booking;
-
+        String status;
         if (requestType == Request.RequestType.Booking) {
             request = new BookingRequest();
+            status = "Не заехал еще";
         } else {
+            status = "Заехал";
             request = new CheckInRequest();
         }
 
@@ -38,7 +40,7 @@ public class RequestService {
         request.setRequestType(requestType);
         request.setRoomNumber(requestDto.getRoomNumber());
         request.setRoomCount(requestDto.getRoomCount());
-        request.setStatus("Заехал");
+        request.setStatus(status);
         requestRepository.save(request);
         return request;
     }

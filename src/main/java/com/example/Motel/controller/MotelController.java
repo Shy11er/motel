@@ -123,13 +123,11 @@ public class MotelController {
             long amountPrice = calculateAmountPrice(request, rooms);
             request.setAmountPrice(amountPrice);
             request.setRooms(rooms);
+            request.setStatus("Заехал");
             otchet.addAmountPrice(amountPrice);
         }
 
         if (request.getRooms() != null) {
-            System.out.println("Current date: " + currDate);
-            System.out.println("Departure date: " + request.getDeparture());
-
             if (currDate.compareTo(request.getDeparture()) >= 0) {
                 freeRooms(request.getRooms());
                 request.setStatus("Выехал");
